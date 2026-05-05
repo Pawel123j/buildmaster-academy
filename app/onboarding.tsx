@@ -214,12 +214,10 @@ const styles = StyleSheet.create({
     fontWeight: "900"
   },
   grid: {
-    flexDirection: "row",
-    flexWrap: "wrap",
     gap: spacing.sm
   },
   goalOption: {
-    width: "48.5%",
+    alignSelf: "stretch",
     minHeight: 144,
     borderRadius: radii.lg,
     borderWidth: 1,

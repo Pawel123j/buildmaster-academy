@@ -13,3 +13,6 @@ yarn-error.*
 *.orig.*
 web-build/
 .env
+*.log
+*-preview.png
+chrome-debug-profile/

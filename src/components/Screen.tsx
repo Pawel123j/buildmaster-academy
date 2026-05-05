@@ -33,10 +33,13 @@ export function Screen({ children, scroll = true, contentStyle }: ScreenProps) {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
+    height: "100%",
+    minHeight: "100%",
     backgroundColor: colors.background
   },
   safeArea: {
-    flex: 1
+    flex: 1,
+    height: "100%"
   },
   scrollContent: {
     flexGrow: 1
