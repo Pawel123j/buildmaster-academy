@@ -1,6 +1,8 @@
 .expo/
 .expo-shared/
 node_modules/
+.next/
+out/
 dist/
 npm-debug.*
 yarn-debug.*
@@ -13,6 +15,8 @@ yarn-error.*
 *.orig.*
 web-build/
 .env
+.env*.local
 *.log
+*.tsbuildinfo
 *-preview.png
 chrome-debug-profile/

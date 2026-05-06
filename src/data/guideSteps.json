@@ -1,0 +1,189 @@
+[
+  {
+    "id": "parts",
+    "title": "Choosing Parts",
+    "stage": "Planning",
+    "duration": "35 min",
+    "difficulty": "Medium",
+    "summary": "Match the CPU, motherboard, RAM, storage, case, GPU, PSU, and cooler before buying anything.",
+    "actions": [
+      "Choose a CPU platform first, then match the motherboard socket and chipset.",
+      "Check RAM generation, case size, GPU length, cooler height, and PSU wattage.",
+      "Reserve part of the budget for airflow, storage, and a reliable power supply."
+    ],
+    "mistakes": [
+      "Buying DDR4 RAM for a DDR5-only motherboard.",
+      "Choosing a case that does not fit the GPU or motherboard form factor."
+    ]
+  },
+  {
+    "id": "tools",
+    "title": "Preparing Tools",
+    "stage": "Workspace",
+    "duration": "15 min",
+    "difficulty": "Easy",
+    "summary": "Set up a clean, bright workspace with the right tools and a simple anti-static habit.",
+    "actions": [
+      "Prepare a Phillips screwdriver, cable ties, thermal paste if needed, and a tray for screws.",
+      "Build on a solid table with good lighting and keep manuals within reach.",
+      "Touch the unpainted metal case frame before handling sensitive parts."
+    ],
+    "mistakes": [
+      "Building on carpet with parts scattered around.",
+      "Losing motherboard standoff screws before the board is mounted."
+    ]
+  },
+  {
+    "id": "cpu",
+    "title": "Installing CPU",
+    "stage": "Motherboard Prep",
+    "duration": "10 min",
+    "difficulty": "Careful",
+    "summary": "Seat the processor gently by aligning the triangle marker or socket notches.",
+    "actions": [
+      "Open the socket retention arm or frame.",
+      "Align the CPU marker with the socket marker and lower it without sliding.",
+      "Lock the retention mechanism and keep the socket cover for warranty support."
+    ],
+    "mistakes": [
+      "Touching the contact pads or socket pins.",
+      "Forcing the CPU when it is not aligned."
+    ]
+  },
+  {
+    "id": "ram",
+    "title": "Installing RAM",
+    "stage": "Motherboard Prep",
+    "duration": "8 min",
+    "difficulty": "Easy",
+    "summary": "Install memory in the recommended slots so dual-channel mode works correctly.",
+    "actions": [
+      "Open the DIMM latches and check the slot order in the motherboard manual.",
+      "Align the notch and press evenly until the latch clicks.",
+      "Use slots A2 and B2 first on most two-stick builds."
+    ],
+    "mistakes": [
+      "Using adjacent slots when the manual recommends alternating slots.",
+      "Stopping before the module is fully seated."
+    ]
+  },
+  {
+    "id": "ssd",
+    "title": "Installing SSD",
+    "stage": "Motherboard Prep",
+    "duration": "10 min",
+    "difficulty": "Easy",
+    "summary": "Install the M.2 drive under its heatsink, then secure it without overtightening.",
+    "actions": [
+      "Remove the M.2 heatsink or screw from the correct slot.",
+      "Insert the SSD at an angle and press it down onto the standoff.",
+      "Reinstall the heatsink after removing any protective film from the thermal pad."
+    ],
+    "mistakes": [
+      "Leaving plastic film on a heatsink thermal pad.",
+      "Using the wrong standoff position for the SSD length."
+    ]
+  },
+  {
+    "id": "motherboard",
+    "title": "Mounting Motherboard",
+    "stage": "Case Assembly",
+    "duration": "20 min",
+    "difficulty": "Careful",
+    "summary": "Install standoffs, align the rear I/O, and secure the board evenly.",
+    "actions": [
+      "Confirm the case standoffs match the motherboard size.",
+      "Lower the board into the case without scraping the rear I/O area.",
+      "Tighten screws in a gentle cross pattern."
+    ],
+    "mistakes": [
+      "Leaving an extra standoff under the board.",
+      "Overtightening screws and flexing the PCB."
+    ]
+  },
+  {
+    "id": "gpu",
+    "title": "Installing GPU",
+    "stage": "Expansion",
+    "duration": "10 min",
+    "difficulty": "Easy",
+    "summary": "Seat the graphics card in the primary PCIe slot and secure it to the case.",
+    "actions": [
+      "Remove the correct rear expansion slot covers.",
+      "Unlock the PCIe latch, align the card, and press until fully seated.",
+      "Support heavier cards and fasten the bracket screws."
+    ],
+    "mistakes": [
+      "Forgetting to remove slot covers before pushing the GPU in.",
+      "Plugging the monitor into the motherboard instead of the GPU."
+    ]
+  },
+  {
+    "id": "psu",
+    "title": "Connecting PSU Cables",
+    "stage": "Power",
+    "duration": "25 min",
+    "difficulty": "Medium",
+    "summary": "Route only the needed modular cables and make every power connector click.",
+    "actions": [
+      "Connect 24-pin motherboard power, 8-pin CPU power, GPU power, SATA power if needed, and front-panel leads.",
+      "Route cables through the nearest grommets to keep airflow clear.",
+      "Check that PCIe and CPU EPS cables are not swapped."
+    ],
+    "mistakes": [
+      "Missing the CPU power connector near the top of the motherboard.",
+      "Using one daisy-chained GPU cable for a high-power graphics card."
+    ]
+  },
+  {
+    "id": "boot",
+    "title": "First Boot",
+    "stage": "Validation",
+    "duration": "20 min",
+    "difficulty": "Medium",
+    "summary": "Start with minimal peripherals and watch for fan spin, display output, and debug LEDs.",
+    "actions": [
+      "Connect monitor, keyboard, mouse, and power cable.",
+      "Turn on the PSU switch and press the case power button.",
+      "If there is no display, check RAM seating, GPU power, and debug LEDs."
+    ],
+    "mistakes": [
+      "Panicking during the first long memory-training boot.",
+      "Troubleshooting without reading the motherboard debug indicator."
+    ]
+  },
+  {
+    "id": "bios",
+    "title": "BIOS Setup",
+    "stage": "Configuration",
+    "duration": "25 min",
+    "difficulty": "Medium",
+    "summary": "Verify hardware detection, enable memory profile, set boot order, and update firmware when needed.",
+    "actions": [
+      "Confirm CPU, RAM, SSD, and fan readings appear correctly.",
+      "Enable EXPO or XMP for rated memory speed.",
+      "Set USB install media as the first boot device."
+    ],
+    "mistakes": [
+      "Leaving fast RAM at default JEDEC speed.",
+      "Updating BIOS during unstable power conditions."
+    ]
+  },
+  {
+    "id": "os",
+    "title": "Installing Windows/Linux",
+    "stage": "Operating System",
+    "duration": "45 min",
+    "difficulty": "Easy",
+    "summary": "Install the operating system, chipset drivers, GPU drivers, and core updates.",
+    "actions": [
+      "Create a bootable USB installer for Windows or your Linux distribution.",
+      "Install to the primary SSD and remove the USB when setup restarts.",
+      "Install chipset, network, audio, and GPU drivers after the desktop loads."
+    ],
+    "mistakes": [
+      "Installing the OS on the wrong drive.",
+      "Skipping chipset drivers and blaming the hardware for unstable behavior."
+    ]
+  }
+]

@@ -1,126 +1,127 @@
-# OrbitMentor
+# BuildMaster Academy
 
-OrbitMentor is an Android-first Expo mobile app for aspiring developers. It turns a chosen career goal into a gamified learning loop with onboarding, a personalized roadmap, daily quests, XP, streaks, quizzes, mentor-style guidance, achievements, and portfolio project ideas.
+BuildMaster Academy is a polished educational web app that teaches beginners how to build a desktop PC step by step. It combines a practical build guide, compatibility warnings, budget PC presets in PLN, saved checklist progress, and a short quiz about PC parts.
 
-The app is built as a polished first GitHub mobile portfolio project. It runs fully offline with realistic mock content for every career path, so no backend or API key is required.
+The project is built as a GitHub-ready portfolio application: no paid APIs, no backend requirement, typed local mock data, reusable React components, and a responsive dark UI.
 
 ## Features
 
-- Premium dark mobile UI with gradients, cards, badges, and touch feedback
-- Onboarding for career goal, current level, and daily focus time
-- Personalized dashboard with XP, streaks, roadmap progress, daily quest, and mentor insight
-- Structured roadmap with modules, task completion, milestones, and automatic progress
-- Daily quests generated from the selected roadmap
-- XP and streak updates when quests are completed
-- Mini quiz system with at least five questions per career path
-- Portfolio project ideas with skills practiced and README-style summaries
-- Profile and stats screen with achievements and reset confirmation
-- Local persistence with Zustand and AsyncStorage
-
-## Career Paths
-
-- Frontend Developer
-- Backend Developer
-- Mobile Developer
-- Python Developer
-- Cybersecurity
-- Data Analyst
+- Modern dark purple/black interface with a dashboard-like feel
+- Landing page that explains the product and highlights the learning modules
+- Step-by-step PC building guide covering:
+  - Choosing parts
+  - Preparing tools
+  - Installing CPU
+  - Installing RAM
+  - Installing SSD
+  - Mounting motherboard
+  - Installing GPU
+  - Connecting PSU cables
+  - First boot
+  - BIOS setup
+  - Installing Windows/Linux
+- Checklist system that saves completed build steps in `localStorage`
+- Interactive compatibility checker for CPU socket, motherboard, and RAM type
+- Budget PC builder with 2500 PLN, 4000 PLN, and 7000 PLN presets
+- Multiple-choice quiz with scoring and explanations
+- Project page with problem statement, technologies, learnings, and README-ready notes
+- Local JSON mock data for guide content, budgets, compatibility, and quiz questions
 
 ## Tech Stack
 
-- Expo SDK 55
-- React Native
+- Next.js
+- React
 - TypeScript
-- Expo Router
-- Zustand
-- AsyncStorage
-- React Hook Form
-- Zod
-- Expo Linear Gradient
-- Lucide React Native
+- Tailwind CSS
+- Lucide React icons
+- Local JSON mock data
+- Browser `localStorage`
 
-## Screenshots
+## Getting Started
 
-Add screenshots after running the app on an Android emulator or device:
-
-| Onboarding | Dashboard | Roadmap |
-| --- | --- | --- |
-| `docs/screenshots/onboarding.png` | `docs/screenshots/dashboard.png` | `docs/screenshots/roadmap.png` |
-
-| Quests | Quiz | Profile |
-| --- | --- | --- |
-| `docs/screenshots/quests.png` | `docs/screenshots/quiz.png` | `docs/screenshots/profile.png` |
-
-## Installation
+Install dependencies:
 
 ```bash
 npm install
 ```
 
-## Run Locally
-
-Start the Expo development server:
+Run the development server:
 
 ```bash
-npx expo start
+npm run dev
 ```
 
-Run on Android:
+Open the local URL printed by Next.js, usually:
 
-```bash
-npx expo start --android
+```text
+http://localhost:3000
 ```
 
-The same scripts are available through npm:
+## Available Scripts
 
 ```bash
+npm run dev
+npm run build
 npm run start
-npm run android
-npm run ios
-npm run web
+npm run lint
+npm run typecheck
 ```
 
 ## Project Structure
 
 ```text
 app/
-  _layout.tsx
-  index.tsx
-  onboarding.tsx
-  portfolio.tsx
-  (tabs)/
-    dashboard.tsx
-    roadmap.tsx
-    quests.tsx
-    quiz.tsx
-    profile.tsx
+  globals.css
+  layout.tsx
+  page.tsx
+  project/
+    page.tsx
 src/
   components/
-  constants/
+    AppHeader.tsx
+    BudgetBuilder.tsx
+    BuildGuide.tsx
+    CompatibilityChecker.tsx
+    FeatureGrid.tsx
+    Footer.tsx
+    HeroWorkbench.tsx
+    HomeExperience.tsx
+    ProjectTeaser.tsx
+    Quiz.tsx
+    SectionHeader.tsx
   data/
-  store/
+    budgetBuilds.json
+    compatibility.json
+    guideSteps.json
+    quizQuestions.json
+  lib/
+    utils.ts
   types/
-  utils/
+    buildmaster.ts
 ```
 
-## State Model
+## Mock Data
 
-OrbitMentor persists:
+All content is stored locally:
 
-- onboarding completion and profile choices
-- XP and streak count
-- completed roadmap tasks
-- completed daily quests
-- quiz attempts and scores
-- explored portfolio ideas
+- `src/data/guideSteps.json` stores the ordered PC build lessons
+- `src/data/compatibility.json` stores CPU sockets, RAM types, and motherboard examples
+- `src/data/budgetBuilds.json` stores suggested part lists for each PLN budget
+- `src/data/quizQuestions.json` stores multiple-choice quiz questions
 
-Progress can be reset from the Profile screen while keeping the selected onboarding path.
+## What I Learned
+
+- How to structure an educational flow around a real-world technical task
+- How to model compatibility rules in simple local data
+- How to persist checklist progress with browser storage
+- How to build responsive interactive sections with reusable React components
+- How to present a full-stack-style portfolio project without relying on paid APIs
 
 ## Future Improvements
 
-- Real AI mentor endpoint with safe prompt templates
-- Calendar reminders and push notifications
-- Cloud sync and account login
-- More quiz modes and spaced repetition
-- Screenshot automation for README assets
-- EAS Build setup and Play Store release checklist
+- Add searchable part catalogs and deeper compatibility rules
+- Add printable/exportable build checklists
+- Add user-created build plans with editable part lists
+- Add accessibility preference controls for motion and contrast
+- Add more quizzes and spaced repetition
+- Add deployment screenshots and a live demo link after hosting

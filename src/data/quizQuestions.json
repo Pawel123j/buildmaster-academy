@@ -1,0 +1,44 @@
+[
+  {
+    "id": "socket",
+    "question": "What must match between a CPU and a motherboard?",
+    "options": ["The CPU socket", "The case color", "The GPU memory size", "The monitor refresh rate"],
+    "answerIndex": 0,
+    "explanation": "The CPU socket is the physical and electrical interface. A CPU will not install into the wrong socket."
+  },
+  {
+    "id": "ram-slots",
+    "question": "On most motherboards, which slots should you use first for two RAM sticks?",
+    "options": ["A2 and B2", "A1 and A2", "Any two slots", "Only the slot closest to the CPU"],
+    "answerIndex": 0,
+    "explanation": "Most boards recommend A2 and B2 for two sticks so dual-channel memory works correctly."
+  },
+  {
+    "id": "psu-cable",
+    "question": "Which PSU cable usually powers the motherboard itself?",
+    "options": ["24-pin ATX", "SATA data", "HDMI", "Front audio"],
+    "answerIndex": 0,
+    "explanation": "The 24-pin ATX cable is the main motherboard power connector."
+  },
+  {
+    "id": "m2-film",
+    "question": "What should you check before reinstalling an M.2 heatsink?",
+    "options": ["Remove protective film from the thermal pad", "Disable all fans", "Unplug the CPU cooler", "Format the SSD"],
+    "answerIndex": 0,
+    "explanation": "Thermal pad film blocks heat transfer and is a common first-build mistake."
+  },
+  {
+    "id": "bios-memory",
+    "question": "What BIOS setting commonly enables rated RAM speed?",
+    "options": ["XMP or EXPO", "Secure Boot", "Wake-on-LAN", "Fan stop"],
+    "answerIndex": 0,
+    "explanation": "XMP and EXPO load the memory profile so RAM runs at its advertised speed."
+  },
+  {
+    "id": "debug",
+    "question": "If the PC powers on but shows no display, what is one of the first useful checks?",
+    "options": ["Motherboard debug LEDs", "Desktop wallpaper", "Printer queue", "Browser cache"],
+    "answerIndex": 0,
+    "explanation": "Debug LEDs can point to CPU, RAM, GPU, or boot-device problems."
+  }
+]

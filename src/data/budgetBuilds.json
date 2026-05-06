@@ -1,0 +1,51 @@
+[
+  {
+    "id": "starter-2500",
+    "label": "Starter 2500 PLN",
+    "budget": 2500,
+    "audience": "First build, school work, esports, and quiet everyday use.",
+    "focus": "Maximum value with integrated graphics and room for a future GPU.",
+    "parts": [
+      { "category": "CPU", "name": "AMD Ryzen 5 5600G", "price": 520 },
+      { "category": "Motherboard", "name": "B550 mATX DDR4 board", "price": 360 },
+      { "category": "RAM", "name": "16 GB DDR4 3200 MHz", "price": 180 },
+      { "category": "Storage", "name": "1 TB NVMe SSD", "price": 260 },
+      { "category": "Case", "name": "Airflow mATX case", "price": 230 },
+      { "category": "PSU", "name": "550 W 80+ Bronze", "price": 260 },
+      { "category": "Cooling", "name": "Stock cooler + 2 case fans", "price": 140 }
+    ]
+  },
+  {
+    "id": "balanced-4000",
+    "label": "Balanced 4000 PLN",
+    "budget": 4000,
+    "audience": "1080p gaming, content learning, and a strong daily workstation.",
+    "focus": "Dedicated GPU, modern storage, and reliable upgrade path.",
+    "parts": [
+      { "category": "CPU", "name": "Intel Core i5-12400F", "price": 620 },
+      { "category": "Motherboard", "name": "B760 DDR4 board", "price": 520 },
+      { "category": "RAM", "name": "32 GB DDR4 3600 MHz", "price": 320 },
+      { "category": "GPU", "name": "Radeon RX 7600 8 GB", "price": 1200 },
+      { "category": "Storage", "name": "1 TB NVMe SSD", "price": 280 },
+      { "category": "Case", "name": "ATX airflow case", "price": 300 },
+      { "category": "PSU", "name": "650 W 80+ Gold", "price": 390 }
+    ]
+  },
+  {
+    "id": "creator-7000",
+    "label": "Creator 7000 PLN",
+    "budget": 7000,
+    "audience": "1440p gaming, streaming, programming, and creator workloads.",
+    "focus": "AM5 platform, DDR5 memory, stronger GPU, and long-term upgrades.",
+    "parts": [
+      { "category": "CPU", "name": "AMD Ryzen 5 7600", "price": 900 },
+      { "category": "Motherboard", "name": "B650 ATX DDR5 board", "price": 760 },
+      { "category": "RAM", "name": "32 GB DDR5 6000 MHz CL30", "price": 520 },
+      { "category": "GPU", "name": "GeForce RTX 4070 Super 12 GB", "price": 2850 },
+      { "category": "Storage", "name": "2 TB PCIe 4.0 NVMe SSD", "price": 520 },
+      { "category": "Case", "name": "Premium airflow ATX case", "price": 440 },
+      { "category": "PSU", "name": "750 W 80+ Gold ATX 3.0", "price": 560 },
+      { "category": "Cooling", "name": "Dual-tower air cooler", "price": 350 }
+    ]
+  }
+]

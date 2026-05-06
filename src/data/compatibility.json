@@ -1,0 +1,78 @@
+{
+  "sockets": ["AM5", "LGA1700", "AM4"],
+  "ramTypes": ["DDR4", "DDR5"],
+  "motherboards": [
+    {
+      "id": "msi-b650-tomahawk",
+      "name": "MSI MAG B650 Tomahawk WiFi",
+      "socket": "AM5",
+      "chipset": "B650",
+      "formFactor": "ATX",
+      "ramType": "DDR5",
+      "notes": "Strong Ryzen 7000/9000 option with DDR5 and good VRM cooling."
+    },
+    {
+      "id": "asus-b650m-tuf",
+      "name": "ASUS TUF Gaming B650M-Plus",
+      "socket": "AM5",
+      "chipset": "B650",
+      "formFactor": "mATX",
+      "ramType": "DDR5",
+      "notes": "Compact AM5 board for airflow-focused mid-tower or smaller builds."
+    },
+    {
+      "id": "gigabyte-x670e-aorus",
+      "name": "Gigabyte X670E Aorus Elite AX",
+      "socket": "AM5",
+      "chipset": "X670E",
+      "formFactor": "ATX",
+      "ramType": "DDR5",
+      "notes": "Premium AM5 board with more lanes for high-end storage and GPUs."
+    },
+    {
+      "id": "msi-b760-ddr4",
+      "name": "MSI PRO B760-P DDR4",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "formFactor": "ATX",
+      "ramType": "DDR4",
+      "notes": "Value Intel board when reusing DDR4 memory."
+    },
+    {
+      "id": "asus-z790-ddr5",
+      "name": "ASUS Prime Z790-A WiFi",
+      "socket": "LGA1700",
+      "chipset": "Z790",
+      "formFactor": "ATX",
+      "ramType": "DDR5",
+      "notes": "Performance Intel board with DDR5 support and CPU overclocking features."
+    },
+    {
+      "id": "asrock-b760m-steel",
+      "name": "ASRock B760M Steel Legend WiFi",
+      "socket": "LGA1700",
+      "chipset": "B760",
+      "formFactor": "mATX",
+      "ramType": "DDR5",
+      "notes": "Balanced DDR5 Intel board for clean compact gaming builds."
+    },
+    {
+      "id": "msi-b550-a-pro",
+      "name": "MSI B550-A Pro",
+      "socket": "AM4",
+      "chipset": "B550",
+      "formFactor": "ATX",
+      "ramType": "DDR4",
+      "notes": "Reliable Ryzen 3000/5000 option for budget-friendly DDR4 builds."
+    },
+    {
+      "id": "gigabyte-b550m-ds3h",
+      "name": "Gigabyte B550M DS3H",
+      "socket": "AM4",
+      "chipset": "B550",
+      "formFactor": "mATX",
+      "ramType": "DDR4",
+      "notes": "Low-cost AM4 board for entry-level gaming and learning builds."
+    }
+  ]
+}
