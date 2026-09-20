@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Lint, typy, testy, build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Instalacja zależności
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Kontrola typów
+        # `next build` sprawdza typy tylko w plikach, które wciągnie do
+        # bundla — testy i pliki pomocnicze zostają poza kontrolą.
+        run: npm run typecheck
+
+      - name: Testy
+        run: npm test
+
+      - name: Audyt zależności
+        # Po naprawie zależności repozytorium ma 0 podatności, więc próg
+        # `high` jest realny do utrzymania.
+        run: npm audit --audit-level=high
+
+      - name: Build produkcyjny
+        run: npm run build
