@@ -11,9 +11,21 @@ export function Footer() {
           </span>
           <span>BuildMaster Academy</span>
         </div>
-        <div className="flex gap-4">
+        <div className="flex flex-wrap gap-4">
           <Link href="/" className="transition hover:text-white">
             Home
+          </Link>
+          <Link href="/guide" className="transition hover:text-white">
+            Guide
+          </Link>
+          <Link href="/compatibility" className="transition hover:text-white">
+            Checker
+          </Link>
+          <Link href="/budgets" className="transition hover:text-white">
+            Budgets
+          </Link>
+          <Link href="/quiz" className="transition hover:text-white">
+            Quiz
           </Link>
           <Link href="/project" className="transition hover:text-white">
             Project

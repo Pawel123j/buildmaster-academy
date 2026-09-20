@@ -4,11 +4,15 @@ import Link from "next/link";
 import { useState } from "react";
 import { Cpu, Github, Menu, X } from "lucide-react";
 
+// Adresy, a nie kotwice na stronie głównej: każde narzędzie da się dzięki
+// temu podlinkować wprost. Strona główna nadal pokazuje wszystkie sekcje
+// po kolei i zachowuje swoje identyfikatory (#guide, #checker, ...), więc
+// stare odnośniki z kotwicami nadal działają.
 const navItems = [
-  { href: "/#guide", label: "Guide" },
-  { href: "/#checker", label: "Checker" },
-  { href: "/#budget", label: "Budgets" },
-  { href: "/#quiz", label: "Quiz" },
+  { href: "/guide", label: "Guide" },
+  { href: "/compatibility", label: "Checker" },
+  { href: "/budgets", label: "Budgets" },
+  { href: "/quiz", label: "Quiz" },
   { href: "/project", label: "Project" }
 ];
 
