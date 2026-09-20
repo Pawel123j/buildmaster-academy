@@ -9,19 +9,22 @@ export type GuideStep = {
   mistakes: string[];
 };
 
+/** Generacja pamięci. Wydzielony alias, bo typ powtarzał się w trzech miejscach. */
+export type RamType = "DDR4" | "DDR5";
+
 export type Motherboard = {
   id: string;
   name: string;
   socket: string;
   chipset: string;
   formFactor: string;
-  ramType: "DDR4" | "DDR5";
+  ramType: RamType;
   notes: string;
 };
 
 export type CompatibilityData = {
   sockets: string[];
-  ramTypes: Array<"DDR4" | "DDR5">;
+  ramTypes: RamType[];
   motherboards: Motherboard[];
 };
 

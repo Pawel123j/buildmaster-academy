@@ -3,31 +3,28 @@
 import { useMemo, useState } from "react";
 import { AlertTriangle, Cpu, ShieldCheck } from "lucide-react";
 import compatibilityData from "@/data/compatibility.json";
-import type { CompatibilityData, Motherboard } from "@/types/buildmaster";
+import type { CompatibilityData, RamType } from "@/types/buildmaster";
+import {
+  boardSummary,
+  boardsForSocket,
+  boardsForSocketAndRam,
+  hasRamMismatch
+} from "@/lib/compatibility";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "./SectionHeader";
 
 const data = compatibilityData as CompatibilityData;
 
-function boardSummary(board: Motherboard, selectedRam: string) {
-  return board.ramType === selectedRam
-    ? "Compatible with selected memory"
-    : `Requires ${board.ramType}, not ${selectedRam}`;
-}
-
 export function CompatibilityChecker() {
   const [socket, setSocket] = useState(data.sockets[0] ?? "AM5");
-  const [ramType, setRamType] = useState<"DDR4" | "DDR5">(data.ramTypes[0] ?? "DDR4");
+  const [ramType, setRamType] = useState<RamType>(data.ramTypes[0] ?? "DDR4");
 
-  const socketBoards = useMemo(
-    () => data.motherboards.filter((board) => board.socket === socket),
-    [socket]
-  );
+  const socketBoards = useMemo(() => boardsForSocket(data, socket), [socket]);
   const matchingBoards = useMemo(
-    () => socketBoards.filter((board) => board.ramType === ramType),
-    [ramType, socketBoards]
+    () => boardsForSocketAndRam(data, socket, ramType),
+    [ramType, socket]
   );
-  const hasWarning = socketBoards.length > 0 && matchingBoards.length === 0;
+  const hasWarning = useMemo(() => hasRamMismatch(data, socket, ramType), [ramType, socket]);
 
   return (
     <section id="checker" className="border-b border-white/10 py-20">
