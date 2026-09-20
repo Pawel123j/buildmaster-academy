@@ -4,6 +4,31 @@ BuildMaster Academy is a polished educational web app that teaches beginners how
 
 The project is built as a GitHub-ready portfolio application: no paid APIs, no backend requirement, typed local mock data, reusable React components, and a responsive dark UI.
 
+## Zrzuty ekranu
+
+Zrzuty są robione skryptem Playwrighta na zbudowanej wersji produkcyjnej
+(`npm run build && npm run start`), nie rysowane ręcznie.
+
+| | |
+|---|---|
+| ![Strona główna](docs/screenshots/01-landing.png) | ![Przewodnik](docs/screenshots/02-guide.png) |
+| **Strona główna** | **Przewodnik krok po kroku** |
+| ![Sprawdzanie kompatybilności](docs/screenshots/03-compatibility.png) | ![Zestawy budżetowe](docs/screenshots/04-budgets.png) |
+| **Kompatybilność — AM5 + DDR4 z ostrzeżeniem** | **Zestawy budżetowe w PLN** |
+| ![Quiz](docs/screenshots/05-quiz.png) | ![O projekcie](docs/screenshots/06-project.png) |
+| **Quiz** | **O projekcie** |
+
+Widok mobilny (390 px):
+
+| | |
+|---|---|
+| <img src="docs/screenshots/07-mobile-landing.png" width="260"> | <img src="docs/screenshots/08-mobile-compatibility.png" width="260"> |
+| **Strona główna** | **Kompatybilność** |
+
+Zrzut kompatybilności pokazuje celowo wybrane ostrzeżenie: dla gniazda AM5
+i pamięci DDR4 żadna płyta z zestawu danych nie pasuje, więc aplikacja
+wyświetla komunikat i oznacza wszystkie trzy płyty jako wymagające DDR5.
+
 ## Features
 
 - Modern dark purple/black interface with a dashboard-like feel
