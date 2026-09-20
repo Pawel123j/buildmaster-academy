@@ -57,14 +57,87 @@ Open the local URL printed by Next.js, usually:
 http://localhost:3000
 ```
 
+## Routes
+
+Każde narzędzie ma własny adres — da się je podlinkować wprost, zamiast
+wysyłać kogoś na stronę główną z prośbą o przewinięcie do sekcji:
+
+| Adres | Zawartość |
+|---|---|
+| `/` | całość po kolei: hero, przewodnik, sprawdzarka, budżety, quiz |
+| `/guide` | przewodnik krok po kroku |
+| `/compatibility` | sprawdzarka kompatybilności płyty i pamięci |
+| `/budgets` | gotowe zestawy w trzech przedziałach cenowych |
+| `/quiz` | quiz wiedzy |
+| `/project` | opis projektu |
+
+Podstrony renderują **te same komponenty** co strona główna, więc nie ma
+dwóch wersji tej samej treści do utrzymania. Strona główna zachowuje swoje
+identyfikatory sekcji (`#guide`, `#checker`, `#budget`, `#quiz`), więc stare
+odnośniki z kotwicami nadal działają.
+
+## Testy i CI
+
+```bash
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
+npm test            # 16 testów
+npm run build       # build produkcyjny
+```
+
+CI uruchamia wszystkie cztery plus audyt zależności na każdej gałęzi.
+
+Testy pokrywają **sprawdzarkę kompatybilności** — to jedyne miejsce
+w aplikacji, w którym zła odpowiedź kosztuje użytkownika pieniądze: ktoś
+kupi płytę, która nie przyjmie jego pamięci.
+
+Logika została w tym celu wyjęta z komponentu do `src/lib/compatibility.ts`,
+żeby dało się ją sprawdzić bez renderowania Reacta. Najważniejszy test
+dotyczy rozróżnienia, które łatwo przeoczyć: **„istnieją płyty dla tego
+gniazda, ale żadna nie obsługuje tej pamięci" to co innego niż „dla tego
+gniazda nie ma w bazie żadnej płyty"**. Pierwsze jest ostrzeżeniem dla
+użytkownika, drugie luką w danych — i ostrzeżenie „te płyty nie obsługują
+DDR4" przy zerowej liczbie płyt byłoby zwyczajnie nieprawdziwe.
+
+Osobna grupa testów pilnuje spójności samych danych: każda płyta ma gniazdo
+i pamięć z list wyświetlanych w interfejsie, identyfikatory są unikalne,
+a każde gniazdo ma przynajmniej jedną płytę (gniazdo bez płyt to pusty ekran
+po kliknięciu, a użytkownik nie wie, czy to błąd aplikacji, czy brak danych).
+
+## Wdrożenie
+
+`vercel.json` zawiera komendy budowania i nagłówki bezpieczeństwa. Aplikacja
+jest w całości statyczna — wszystkie trasy są prerenderowane, nie ma
+backendu ani zmiennych środowiskowych.
+
+```bash
+npx vercel --prod
+```
+
+## Historia repozytorium
+
+Dwa pierwsze commity w tym repozytorium (`Build OrbitMentor Expo app`,
+`Fix OrbitMentor web preview`) **nie dotyczą BuildMaster Academy** — to
+pozostałość po innym projekcie, który powstawał w tym samym katalogu roboczym.
+
+Historia nie została przepisana i nie zostanie. Wymagałoby to
+force-pusha, czyli zmiany identyfikatorów commitów w opublikowanym
+repozytorium; każdy, kto ma lokalną kopię, dostałby rozjechaną historię.
+Cena jest wyraźnie wyższa niż zysk z kosmetyki.
+
+Pliki OrbitMentora nie są w bieżącym stanie repozytorium — zostały
+zastąpione przy commicie `Build BuildMaster Academy web app`. W `.gitignore`
+zostały wpisy `.expo/`, które nic tu nie robią, ale też nic nie psują.
+
 ## Available Scripts
 
 ```bash
-npm run dev
-npm run build
-npm run start
-npm run lint
-npm run typecheck
+npm run dev         # serwer deweloperski
+npm run build       # build produkcyjny
+npm run start       # uruchomienie builda
+npm run lint        # ESLint
+npm run typecheck   # tsc --noEmit
+npm test            # testy (vitest)
 ```
 
 ## Project Structure
@@ -125,3 +198,7 @@ All content is stored locally:
 - Add accessibility preference controls for motion and contrast
 - Add more quizzes and spaced repetition
 - Add deployment screenshots and a live demo link after hosting
+
+## Licencja
+
+MIT — patrz [LICENSE](LICENSE).

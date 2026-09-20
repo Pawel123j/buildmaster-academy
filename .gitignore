@@ -1,5 +1,8 @@
+# Pozostałości po Expo — patrz sekcja o historii repozytorium w README.
+# Zostawione, bo nie przeszkadzają, a usunięcie nic nie daje.
 .expo/
 .expo-shared/
+
 node_modules/
 .next/
 out/
