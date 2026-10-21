@@ -23,3 +23,10 @@ web-build/
 *.tsbuildinfo
 *-preview.png
 chrome-debug-profile/
+
+# Browser test outputs
+e2e/artifacts/
+e2e/__pycache__/
+.pytest_cache/
+
+.venv-e2e/

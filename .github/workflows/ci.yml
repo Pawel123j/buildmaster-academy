@@ -36,7 +36,22 @@ jobs:
       - name: Audyt zależności
         # Po naprawie zależności repozytorium ma 0 podatności, więc próg
         # `high` jest realny do utrzymania.
-        run: npm audit --audit-level=high
+        run: npm run security:check
 
       - name: Build produkcyjny
         run: npm run build
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install browser test dependencies
+        run: |
+          python -m pip install -r e2e/requirements.txt
+          python -m playwright install --with-deps chromium
+      - name: Browser regression tests
+        run: python -m pytest -q e2e --junitxml=e2e/artifacts/results.xml
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: browser-test-results
+          path: e2e/artifacts/

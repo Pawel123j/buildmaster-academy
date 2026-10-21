@@ -20,7 +20,7 @@ const config: Config = {
         panel: "0 20px 80px rgba(0, 0, 0, 0.35)"
       },
       fontFamily: {
-        sans: ["var(--font-geist-sans)", "Inter", "system-ui", "sans-serif"]
+        sans: ["ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "sans-serif"]
       }
     }
   },

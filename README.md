@@ -227,3 +227,46 @@ All content is stored locally:
 ## Licencja
 
 MIT — patrz [LICENSE](LICENSE).
+
+## Reproducible builds and validation
+
+The UI uses the operating system's sans-serif font stack. No Google Fonts
+request is needed during build or at runtime. This keeps the existing layout
+and avoids a network prerequisite for typography; the exact font varies by OS.
+
+Run `npm ci`, `npm run lint`, `npm run typecheck`, `npm test`,
+`npm run build`, then `npm start`. The production server was exercised in
+Chromium at a 390px viewport: checklist persistence after reload, incompatible
+and compatible RAM/socket choices, a complete quiz and restart. Font hosts
+were blocked in that browser test and no font requests occurred.
+
+The content is a local educational dataset, not a live inventory or pricing
+feed. Checklist data stays in the browser. No account or backend is required.
+Local production startup is verified; deployment to a hosting provider and
+its rollback remain unverified. To roll back a release, redeploy the previous
+Git revision and its lockfile, retaining browser data with the existing key.
+
+
+### Testy przeglądarkowe
+
+Po zainstalowaniu zależności aplikacji i zbudowaniu frontendu zgodnie z README / workflow `browser.yml` (lub jobem browser w `ci.yml`):
+
+```bash
+python -m venv .venv-e2e
+# Aktywuj ten venv przed dalszymi poleceniami.
+python -m pip install -r e2e/requirements.txt
+python -m playwright install chromium
+python -m pytest -q e2e
+```
+
+Na Linux może być potrzebne `python -m playwright install --with-deps chromium` z uprawnieniami administratora. Alternatywnie `PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH` wskazuje istniejący Chromium. Testy uruchamiają i zatrzymują własny serwer, używają nowego kontekstu przeglądarki i zapisują logi w ignorowanym `e2e/artifacts/`. Pełny backend musi mieć zainstalowane swoje zależności; `E2E_API_PYTHON` jest opcjonalnym wyborem jego interpretera w AutoDesk/BankGuard. Testy nie uruchamiają wdrożenia.
+
+## Aktualizacja zależności 2026-10-17
+
+Lockfile używa Next.js 16.4.2 i sharp 0.35.5 po naprawie zgłoszeń audytu. Lint, typy, 16 testów, produkcyjny build i scenariusz Chromium ponownie przeszły. Pozostałe zgłoszenia npm dotyczą głównie narzędzi Tailwind/ESLint; pełna bramka `npm audit --audit-level=high` nadal wymaga ich rozwiązania. Publiczne wdrożenie nie zostało wykonane.
+
+## Walidacja etapu 2 — 2026-10-18
+
+Czysta instalacja, lint, typy, 16 testów, produkcyjny build/start i E2E checklist/kompatybilności/quizu/persistencji przechodzą. Skan axe na `/`, `/guide`, `/compatibility` i `/quiz` przy szerokości 390 px nie wykazał naruszeń sprawdzanych reguł WCAG 2 A/AA i 2.1 AA. Nie jest to pełna certyfikacja dostępności.
+
+CI używa `npm run security:check`: pełny audit oraz weryfikacja wersjonowanej poprawki braces i regresji ataków. Surowy audit nadal zgłasza tę zależność. Szczegóły, ograniczenia i obowiązkowy przegląd do 2026-11-18: [SECURITY_PATCH.md](SECURITY_PATCH.md). Lokalny przebieg nie oznacza wykonania GitHub Actions ani publicznego wdrożenia.
