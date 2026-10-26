@@ -64,10 +64,10 @@ wyświetla komunikat i oznacza wszystkie trzy płyty jako wymagające DDR5.
 
 ## Getting Started
 
-Install dependencies:
+Use Node.js 24 (the same supported line as CI). Install the locked dependencies:
 
 ```bash
-npm install
+npm ci
 ```
 
 Run the development server:

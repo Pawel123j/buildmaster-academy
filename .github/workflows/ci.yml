@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: npm
 
       - name: Instalacja zależności
@@ -34,8 +34,8 @@ jobs:
         run: npm test
 
       - name: Audyt zależności
-        # Po naprawie zależności repozytorium ma 0 podatności, więc próg
-        # `high` jest realny do utrzymania.
+        # Sprawdź aktualne advisory i istniejącą poprawkę źródłową;
+        # nie traktuj wyniku poprzedniego audytu jako bieżącej gwarancji.
         run: npm run security:check
 
       - name: Build produkcyjny
