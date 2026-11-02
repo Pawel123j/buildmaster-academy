@@ -30,7 +30,7 @@ export function BudgetBuilder() {
         <SectionHeader
           eyebrow="Budget PC builder"
           title="Pick a PLN target and compare tradeoffs"
-          description="Each preset shows suggested parts, approximate Polish pricing, and the purpose of the build tier."
+          description="Educational example budgets in PLN. These are illustrative allocations, not current retail quotes or a shopping recommendation."
         />
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.8fr_1.2fr]">
@@ -69,6 +69,7 @@ export function BudgetBuilder() {
             </div>
 
             <p className="mt-5 text-sm leading-6 text-slate-300">{selected.focus}</p>
+            <p className="mt-3 text-sm leading-6 text-slate-300">Example dataset reviewed 28 October 2026. Source: project-authored educational estimates; no retailer feed. Generic parts describe a category, not a verified product. Check current offers, exact models, availability and full compatibility before buying.</p>
 
             <div className="mt-6 divide-y divide-white/10">
               {selected.parts.map((part) => (

@@ -32,7 +32,7 @@ export function CompatibilityChecker() {
         <SectionHeader
           eyebrow="Compatibility checker"
           title="Match the platform before buying"
-          description="Choose a CPU socket and RAM generation to reveal compatible motherboards and highlight risky combinations."
+          description="Filter this example catalog by CPU socket and RAM generation. This checks only those two properties."
         />
 
         <div className="mt-10 grid gap-6 lg:grid-cols-[0.85fr_1.15fr]">
@@ -107,6 +107,8 @@ export function CompatibilityChecker() {
             </div>
           </div>
 
+          <div>
+            <p className="mb-4 text-sm leading-6 text-slate-300">Checked: socket and RAM generation. Not checked: CPU support lists, BIOS version, RAM QVL/capacity, case and cooler clearance, power supply wattage/connectors, GPU fit or storage lanes. Confirm exact models against manufacturer documentation before purchase.</p>
           <div className="grid gap-4 md:grid-cols-2">
             {socketBoards.map((board) => {
               const isCompatible = board.ramType === ramType;
@@ -141,6 +143,7 @@ export function CompatibilityChecker() {
                 </article>
               );
             })}
+          </div>
           </div>
         </div>
       </div>
