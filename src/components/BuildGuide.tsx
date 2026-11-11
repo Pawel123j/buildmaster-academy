@@ -13,6 +13,10 @@ const progressEvent = "buildmaster-progress";
 const emptyProgress: string[] = [];
 let cachedRawProgress = "";
 let cachedProgress = emptyProgress;
+let memoryOnly = false;
+let progressWarning = "";
+const validIds = new Set(guideSteps.map(step => step.id));
+function readWarning() { return progressWarning; }
 
 function difficultyClass(difficulty: GuideStep["difficulty"]) {
   if (difficulty === "Easy") {
@@ -27,6 +31,7 @@ function difficultyClass(difficulty: GuideStep["difficulty"]) {
 export function BuildGuide() {
   const completed = useSyncExternalStore(subscribeToProgress, readProgress, getServerProgress);
 
+  const warning = useSyncExternalStore(subscribeToProgress, readWarning, () => "");
   const completedSet = useMemo(() => new Set(completed), [completed]);
   const percent = Math.round((completed.length / guideSteps.length) * 100);
 
@@ -74,6 +79,7 @@ export function BuildGuide() {
                 style={{ width: `${percent}%` }}
               />
             </div>
+            {warning && <div role="status" className="mt-3 text-sm text-warning">{warning}<button type="button" className="ml-2 min-h-11 underline" onClick={() => writeProgress(completed)}>Retry saving</button></div>}
             <p className="mt-3 text-sm text-slate-400">
               {completed.length} of {guideSteps.length} steps completed
             </p>
@@ -173,27 +179,36 @@ function getServerProgress() {
 }
 
 function readProgress() {
+  if (memoryOnly) return cachedProgress;
   try {
     const raw = window.localStorage.getItem(storageKey) ?? "[]";
-    if (raw === cachedRawProgress) {
-      return cachedProgress;
-    }
-
-    const parsed = JSON.parse(raw);
+    if (raw === cachedRawProgress) return cachedProgress;
+    const parsed: unknown = JSON.parse(raw);
+    const values = Array.isArray(parsed) ? parsed :
+      parsed && typeof parsed === "object" && "version" in parsed && parsed.version === 2 && "completed" in parsed ? parsed.completed : null;
+    if (!Array.isArray(values)) throw new Error("Invalid progress");
     cachedRawProgress = raw;
-    cachedProgress = Array.isArray(parsed)
-      ? parsed.filter((item): item is string => typeof item === "string")
-      : emptyProgress;
-
+    cachedProgress = [...new Set(values.filter((item): item is string => typeof item === "string" && validIds.has(item)))];
+    if (cachedProgress.length !== values.length) progressWarning = "Old or unknown checklist entries were removed. Check your progress and save again.";
     return cachedProgress;
   } catch {
-    cachedRawProgress = "[]";
-    cachedProgress = emptyProgress;
-    return emptyProgress;
+    memoryOnly = true;
+    progressWarning = "Progress could not be loaded. Changes remain in this tab until saving succeeds.";
+    return cachedProgress;
   }
 }
 
 function writeProgress(progress: string[]) {
-  window.localStorage.setItem(storageKey, JSON.stringify(progress));
+  cachedProgress = progress;
+  const raw = JSON.stringify({ version: 2, completed: progress });
+  try {
+    window.localStorage.setItem(storageKey, raw);
+    cachedRawProgress = raw;
+    memoryOnly = false;
+    progressWarning = "";
+  } catch {
+    memoryOnly = true;
+    progressWarning = "Not saved: your progress remains in this tab. Keep it open and retry saving.";
+  }
   window.dispatchEvent(new Event(progressEvent));
 }

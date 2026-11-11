@@ -13,6 +13,8 @@ def test_offline_fonts_checklist_compatibility_quiz():
         page.on('pageerror', lambda e: errors.append(str(e)))
         page.on('request', lambda r: font_requests.append(r.url) if 'fonts.google' in r.url or 'fonts.gstatic' in r.url else None)
         page.route(re.compile(r'https://fonts\.(googleapis|gstatic)\.com/.*'), lambda route: route.abort())
+        page.goto(url)
+        page.screenshot(path=str(REPO / 'docs' / 'screenshots' / '07-mobile-landing.png'))
         page.goto(url + '/guide')
         button = page.get_by_role('button', name=re.compile(r'^Mark .* complete$')).first
         label = button.get_attribute('aria-label')
@@ -29,6 +31,7 @@ def test_offline_fonts_checklist_compatibility_quiz():
         expect(page.get_by_text(re.compile('AM5 boards in this dataset do not support DDR4'))).to_be_visible()
         page.get_by_role('button', name='DDR5', exact=True).click()
         expect(page.get_by_text(re.compile('AM5 motherboards? support DDR5 in this dataset'))).to_be_visible()
+        page.screenshot(path=str(REPO / 'docs' / 'screenshots' / '08-mobile-compatibility.png'))
         page.goto(url + '/quiz')
         questions = json.loads(open(REPO / 'src/data/quizQuestions.json').read())
         for q in questions:
@@ -40,3 +43,22 @@ def test_offline_fonts_checklist_compatibility_quiz():
         page.screenshot(path=str(ROOT/'logs'/'buildmaster-mobile.png'))
         assert not font_requests, font_requests
         assert not errors, errors
+
+
+def test_checklist_quota_notice_and_retry():
+    with application('buildmaster', ['node','node_modules/next/dist/bin/next','start','--hostname','127.0.0.1','--port','18309'], str(REPO), 'http://127.0.0.1:18309') as url, browser() as b:
+        page = b.new_page(viewport={'width':390,'height':844})
+        page.add_init_script("""(() => { const original = Storage.prototype.setItem; window.__restoreSetItem = () => { Storage.prototype.setItem = original; }; Storage.prototype.setItem = function(key, value) { if (key === 'buildmaster.checklist.v1') throw new DOMException('Full', 'QuotaExceededError'); return original.call(this, key, value); }; })();""")
+        page.goto(url + '/guide')
+        button = page.get_by_role('button', name=re.compile(r'^Mark .* complete$')).first
+        label = button.get_attribute('aria-label')
+        button.click()
+        expect(page.get_by_role('status')).to_contain_text('Not saved: your progress remains in this tab')
+        expect(page.get_by_text(re.compile('^1 of .* steps completed$'))).to_be_visible()
+        page.evaluate('window.__restoreSetItem()')
+        page.get_by_role('button', name='Retry saving', exact=True).click()
+        expect(page.get_by_role('status')).to_have_count(0)
+        saved = page.evaluate("JSON.parse(localStorage.getItem('buildmaster.checklist.v1'))")
+        assert saved['version'] == 2 and len(saved['completed']) == 1
+        page.reload()
+        expect(page.get_by_text(re.compile('^1 of .* steps completed$'))).to_be_visible()
