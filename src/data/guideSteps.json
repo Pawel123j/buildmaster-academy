@@ -143,6 +143,7 @@
     "difficulty": "Medium",
     "summary": "Start with minimal peripherals and watch for fan spin, display output, and debug LEDs.",
     "actions": [
+      "Before connecting power, confirm the CPU cooler is mounted according to its manual: protective film removed, correct thermal interface applied, and CPU_FAN plus any required pump connector connected. Never start the CPU without its cooler.",
       "Connect monitor, keyboard, mouse, and power cable.",
       "Turn on the PSU switch and press the case power button.",
       "If there is no display, check RAM seating, GPU power, and debug LEDs."

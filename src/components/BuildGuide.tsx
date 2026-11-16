@@ -6,9 +6,10 @@ import guideStepsData from "@/data/guideSteps.json";
 import type { GuideStep } from "@/types/buildmaster";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "./SectionHeader";
+import { checklistStorageKey, checklistRecoveryCopies, decodeChecklist, persistChecklist } from "@/lib/checklistStorage";
 
 const guideSteps = guideStepsData as GuideStep[];
-const storageKey = "buildmaster.checklist.v1";
+const storageKey = checklistStorageKey;
 const progressEvent = "buildmaster-progress";
 const emptyProgress: string[] = [];
 let cachedRawProgress = "";
@@ -32,6 +33,7 @@ export function BuildGuide() {
   const completed = useSyncExternalStore(subscribeToProgress, readProgress, getServerProgress);
 
   const warning = useSyncExternalStore(subscribeToProgress, readWarning, () => "");
+  const hasRecovery = useSyncExternalStore(subscribeToProgress, hasRecoveryCopies, () => false);
   const completedSet = useMemo(() => new Set(completed), [completed]);
   const percent = Math.round((completed.length / guideSteps.length) * 100);
 
@@ -80,6 +82,10 @@ export function BuildGuide() {
               />
             </div>
             {warning && <div role="status" className="mt-3 text-sm text-warning">{warning}<button type="button" className="ml-2 min-h-11 underline" onClick={() => writeProgress(completed)}>Retry saving</button></div>}
+            {hasRecovery && <p className="mt-3 text-sm text-warning">
+              Unreadable saved progress was preserved before replacement.
+              <button type="button" className="ml-2 min-h-11 underline" onClick={downloadRecoveryCopies}>Download saved copies</button>
+            </p>}
             <p className="mt-3 text-sm text-slate-400">
               {completed.length} of {guideSteps.length} steps completed
             </p>
@@ -183,10 +189,7 @@ function readProgress() {
   try {
     const raw = window.localStorage.getItem(storageKey) ?? "[]";
     if (raw === cachedRawProgress) return cachedProgress;
-    const parsed: unknown = JSON.parse(raw);
-    const values = Array.isArray(parsed) ? parsed :
-      parsed && typeof parsed === "object" && "version" in parsed && parsed.version === 2 && "completed" in parsed ? parsed.completed : null;
-    if (!Array.isArray(values)) throw new Error("Invalid progress");
+    const values = decodeChecklist(raw);
     cachedRawProgress = raw;
     cachedProgress = [...new Set(values.filter((item): item is string => typeof item === "string" && validIds.has(item)))];
     if (cachedProgress.length !== values.length) progressWarning = "Old or unknown checklist entries were removed. Check your progress and save again.";
@@ -202,7 +205,7 @@ function writeProgress(progress: string[]) {
   cachedProgress = progress;
   const raw = JSON.stringify({ version: 2, completed: progress });
   try {
-    window.localStorage.setItem(storageKey, raw);
+    persistChecklist(window.localStorage, progress);
     cachedRawProgress = raw;
     memoryOnly = false;
     progressWarning = "";
@@ -211,4 +214,29 @@ function writeProgress(progress: string[]) {
     progressWarning = "Not saved: your progress remains in this tab. Keep it open and retry saving.";
   }
   window.dispatchEvent(new Event(progressEvent));
+}
+
+
+function hasRecoveryCopies() {
+  try { return checklistRecoveryCopies(window.localStorage).length > 0; }
+  catch { return false; }
+}
+
+function downloadRecoveryCopies() {
+  try {
+    const copies = checklistRecoveryCopies(window.localStorage);
+    if (!copies.length) throw new Error("No saved copies available");
+    const blob = new Blob([JSON.stringify({ version: 1, copies }, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "buildmaster-checklist-recovery.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch {
+    progressWarning = "The saved copies could not be downloaded. They have not been removed; try again when browser storage is available.";
+    window.dispatchEvent(new Event(progressEvent));
+  }
 }
