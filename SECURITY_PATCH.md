@@ -17,3 +17,5 @@ A targeted override uses fixed minimatch 11.0.1 for `@typescript-eslint/typescri
 `npm run security:check` rejects every unmitigated low/moderate/high/critical advisory. The final local raw audit reported **zero known advisories**; the parser hash and attack/compatibility tests passed separately. This is a dated observation, not a future guarantee or a claim that an upstream source-patched package has a new version.
 
 Local clean install, lint, typecheck, 25 unit cases, production build and three sandboxed Chromium scenarios passed. Browser coverage exercises the real app, including preserved corrupt progress and downloaded recovery copies. No deployment or hardware compatibility certification is implied.
+
+A repeated audit during final validation reported the newly published Next.js advisory GHSA-mfr8-8qww-v76h. Next.js and eslint-config-next were updated together from 16.4.2 to locked 16.4.6; clean install, code checks, 25 tests, build and all three browser scenarios were repeated. The final raw audit again reports zero findings.

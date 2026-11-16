@@ -14,9 +14,11 @@ The guide also explicitly requires CPU cooling and its required fan/pump connect
 
 - Clean Node.js 24 `npm ci`, lint and standalone TypeScript checks: PASS.
 - Vitest 5.1.0: **25 cases PASS**, covering socket/RAM rules, catalog consistency and recovery failure/retry behavior.
-- Production Next.js 16.4.2 build: PASS.
+- Production Next.js 16.4.6 build: PASS.
 - **Three real sandboxed Chromium scenarios PASS**: checklist/reload, compatibility/quiz/mobile/fonts; quota retry; corrupt/unknown data backup, failed backup write, retry, actual JSON download, second corruption, reset and reload.
 - Raw npm audit: **zero known advisories**. Braces parser hash and attack/compatibility checks: PASS independently of the feed. [Security record and review deadline](../SECURITY_PATCH.md).
 - Independent read-only review: the original data-loss blocker was fixed; no new blockers found. Reviewer separately exercised nine storage tests plus Unicode/whitespace preservation and recovery-read failure, and compared the reviewed files to the validated copy.
 
 Hosted Actions must be read for the current PR #4 head; local results are not substituted for a pending CI check. No deployment, default-branch merge, external retailer integration or hardware compatibility certification was performed. Prices remain estimates and compatibility only covers the sample socket/RAM catalog.
+
+The final repeated audit newly reported GHSA-mfr8-8qww-v76h after the first clean run. Next.js and eslint-config-next were updated together to locked 16.4.6 (supported range starts at 16.4.5). Clean install, all quality checks, 25 tests, build, three browser scenarios and the final raw audit were repeated successfully; the security threshold was not relaxed.
