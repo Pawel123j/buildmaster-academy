@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+export const metadata: Metadata = { title: "About BuildMaster Academy | BuildMaster Academy", description: "About BuildMaster Academy — practical learning tools with clearly stated limits." };
 import Link from "next/link";
 import { ArrowLeft, CheckCircle2, Code2, Cpu, GraduationCap, Layers, Rocket } from "lucide-react";
 import { AppHeader } from "@/components/AppHeader";
