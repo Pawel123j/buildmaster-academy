@@ -6,13 +6,18 @@ import guideStepsData from "@/data/guideSteps.json";
 import type { GuideStep } from "@/types/buildmaster";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "./SectionHeader";
+import { checklistStorageKey, checklistRecoveryCopies, decodeChecklist, persistChecklist } from "@/lib/checklistStorage";
 
 const guideSteps = guideStepsData as GuideStep[];
-const storageKey = "buildmaster.checklist.v1";
+const storageKey = checklistStorageKey;
 const progressEvent = "buildmaster-progress";
 const emptyProgress: string[] = [];
 let cachedRawProgress = "";
 let cachedProgress = emptyProgress;
+let memoryOnly = false;
+let progressWarning = "";
+const validIds = new Set(guideSteps.map(step => step.id));
+function readWarning() { return progressWarning; }
 
 function difficultyClass(difficulty: GuideStep["difficulty"]) {
   if (difficulty === "Easy") {
@@ -27,6 +32,8 @@ function difficultyClass(difficulty: GuideStep["difficulty"]) {
 export function BuildGuide() {
   const completed = useSyncExternalStore(subscribeToProgress, readProgress, getServerProgress);
 
+  const warning = useSyncExternalStore(subscribeToProgress, readWarning, () => "");
+  const hasRecovery = useSyncExternalStore(subscribeToProgress, hasRecoveryCopies, () => false);
   const completedSet = useMemo(() => new Set(completed), [completed]);
   const percent = Math.round((completed.length / guideSteps.length) * 100);
 
@@ -74,6 +81,11 @@ export function BuildGuide() {
                 style={{ width: `${percent}%` }}
               />
             </div>
+            {warning && <div role="status" className="mt-3 text-sm text-warning">{warning}<button type="button" className="ml-2 min-h-11 underline" onClick={() => writeProgress(completed)}>Retry saving</button></div>}
+            {hasRecovery && <p className="mt-3 text-sm text-warning">
+              Unreadable saved progress was preserved before replacement.
+              <button type="button" className="ml-2 min-h-11 underline" onClick={downloadRecoveryCopies}>Download saved copies</button>
+            </p>}
             <p className="mt-3 text-sm text-slate-400">
               {completed.length} of {guideSteps.length} steps completed
             </p>
@@ -173,27 +185,58 @@ function getServerProgress() {
 }
 
 function readProgress() {
+  if (memoryOnly) return cachedProgress;
   try {
     const raw = window.localStorage.getItem(storageKey) ?? "[]";
-    if (raw === cachedRawProgress) {
-      return cachedProgress;
-    }
-
-    const parsed = JSON.parse(raw);
+    if (raw === cachedRawProgress) return cachedProgress;
+    const values = decodeChecklist(raw);
     cachedRawProgress = raw;
-    cachedProgress = Array.isArray(parsed)
-      ? parsed.filter((item): item is string => typeof item === "string")
-      : emptyProgress;
-
+    cachedProgress = [...new Set(values.filter((item): item is string => typeof item === "string" && validIds.has(item)))];
+    if (cachedProgress.length !== values.length) progressWarning = "Old or unknown checklist entries were removed. Check your progress and save again.";
     return cachedProgress;
   } catch {
-    cachedRawProgress = "[]";
-    cachedProgress = emptyProgress;
-    return emptyProgress;
+    memoryOnly = true;
+    progressWarning = "Progress could not be loaded. Changes remain in this tab until saving succeeds.";
+    return cachedProgress;
   }
 }
 
 function writeProgress(progress: string[]) {
-  window.localStorage.setItem(storageKey, JSON.stringify(progress));
+  cachedProgress = progress;
+  const raw = JSON.stringify({ version: 2, completed: progress });
+  try {
+    persistChecklist(window.localStorage, progress);
+    cachedRawProgress = raw;
+    memoryOnly = false;
+    progressWarning = "";
+  } catch {
+    memoryOnly = true;
+    progressWarning = "Not saved: your progress remains in this tab. Keep it open and retry saving.";
+  }
   window.dispatchEvent(new Event(progressEvent));
+}
+
+
+function hasRecoveryCopies() {
+  try { return checklistRecoveryCopies(window.localStorage).length > 0; }
+  catch { return false; }
+}
+
+function downloadRecoveryCopies() {
+  try {
+    const copies = checklistRecoveryCopies(window.localStorage);
+    if (!copies.length) throw new Error("No saved copies available");
+    const blob = new Blob([JSON.stringify({ version: 1, copies }, null, 2)], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "buildmaster-checklist-recovery.json";
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  } catch {
+    progressWarning = "The saved copies could not be downloaded. They have not been removed; try again when browser storage is available.";
+    window.dispatchEvent(new Event(progressEvent));
+  }
 }
